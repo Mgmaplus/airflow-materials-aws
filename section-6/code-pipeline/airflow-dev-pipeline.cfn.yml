@@ -78,6 +78,10 @@ Resources:
               runtime-versions:
                 docker: 18
               commands:
+                - rm -f /etc/apt/sources.list.d/sbt.list
+                - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg > pubkey.gpg
+                - apt-key add pubkey.gpg
+                - rm -rf pubkey.gpg
                 - apt-get -y update
                 - apt-get -y install jq
             pre_build:
