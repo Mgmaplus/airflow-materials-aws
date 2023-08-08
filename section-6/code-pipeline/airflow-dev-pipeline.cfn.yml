@@ -73,6 +73,10 @@ Resources:
         Type: CODEPIPELINE
         BuildSpec: |
           version: 0.2
+          env:
+            parameter-store:
+              DOCKERHUB_PASS: "/dockerhub/password"
+              DOCKERHUB_USERNAME: "/dockerhub/username"
           phases:
             install:
               runtime-versions:
@@ -92,12 +96,13 @@ Resources:
                 - echo "Logging into Amazon ECR..."
                 - $(aws ecr get-login --no-include-email --region ${AWS_DEFAULT_REGION})
                 - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+                - echo $DOCKERHUB_PASS | docker login --username $DOCKERHUB_USERNAME --password-stdin
             build:
               commands:
                 - echo Build started on `date`
                 - docker build -t "${REPOSITORY_URI}:latest" .
                 - docker tag "${REPOSITORY_URI}:latest" "${REPOSITORY_URI}:${TAG}"
-                - docker run -rm “${REPOSITORY_URI}:latest” bash -c “airflow initdb && pytest unittests”
+                - docker run --rm "${REPOSITORY_URI}:latest" bash -c "airflow db init && pytest unittests"
             post_build:
               commands:
                 - echo Build completed on `date`

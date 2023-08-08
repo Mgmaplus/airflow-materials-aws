@@ -9,6 +9,6 @@ aws cloudformation create-stack --stack-name=airflow-staging-pipeline \
     --parameters ParameterKey=EksClusterName,ParameterValue=airflow \
     ParameterKey=KubectlRoleName,ParameterValue=AirflowCodeBuildServiceRole \
     ParameterKey=GitHubUser,ParameterValue=Mgmaplus \
-    ParameterKey=GitHubToken,ParameterValue=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 \
+    ParameterKey=GitHubToken,ParameterValue=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 \
     ParameterKey=GitSourceRepo,ParameterValue=airflow-eks-docker \
     ParameterKey=GitBranch,ParameterValue=staging
