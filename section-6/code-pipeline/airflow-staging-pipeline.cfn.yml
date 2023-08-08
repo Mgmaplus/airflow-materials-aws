@@ -121,7 +121,7 @@ Resources:
                 - mv ./kubectl /usr/local/bin/kubectl
                 - export KUBECONFIG=$HOME/.kube/config
                 - curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-                - helm repo add airflow-eks-helm-chart https://marclamberti.github.io/airflow-eks-helm-chart
+                - helm repo add apache-airflow https://airflow.apache.org
                 - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
             build:
               commands:

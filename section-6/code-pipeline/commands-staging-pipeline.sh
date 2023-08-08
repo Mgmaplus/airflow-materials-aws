@@ -3,7 +3,7 @@
 aws sts get-caller-identity
 
 # create ACCOUNT ID and ROLE variables
-ACCOUNT_ID=<the_id>
+ACCOUNT_ID=663161315447
 ROLE="    - rolearn: arn:aws:iam::$ACCOUNT_ID:role/AirflowCodeBuildServiceRole\n      username: build\n      groups:\n        - system:masters"
 
 # make the patch
@@ -19,7 +19,7 @@ kubectl patch configmap/aws-auth -n kube-system --patch "$(cat /tmp/aws-auth-pat
 kubectl get -n kube-system configmap/aws-auth -o yaml
 
 # create a S3 bucket for staging artifacts (choose your own as it must be unique)
-aws s3 mb s3://airflow-staging-codepipeline-artifacts
+aws s3 mb s3://airflow-staging-codepipeline-artifacts-demo
 
 ###### in post_build after pushes of the image in ECR
 - echo "Testing..."
@@ -29,4 +29,4 @@ aws s3 mb s3://airflow-staging-codepipeline-artifacts
 - kubectl exec $POD_NAME -n staging -- /bin/bash -c "pytest integrationtests"
 
 # deploy the stack
-aws cloudformation create-stack --stack-name=airflow-staging-pipeline --template-body=file://airflow-materials-aws/section-6/code-pipeline/airflow-staging-pipeline.cfn.yml --parameters ParameterKey=EksClusterName,ParameterValue=airflow ParameterKey=KubectlRoleName,ParameterValue=AirflowCodeBuildServiceRole ParameterKey=GitHubUser,ParameterValue=marclamberti ParameterKey=GitHubToken,ParameterValue=cb53803446b0968e132e2e8ff729c7596fb0d7c8 ParameterKey=GitSourceRepo,ParameterValue=airflow-eks-docker ParameterKey=GitBranch,ParameterValue=staging
+aws cloudformation create-stack --stack-name=airflow-staging-pipeline --template-body=file://airflow-materials-aws/section-6/code-pipeline/airflow-staging-pipeline.cfn.yml --parameters ParameterKey=EksClusterName,ParameterValue=airflow ParameterKey=KubectlRoleName,ParameterValue=AirflowCodeBuildServiceRole ParameterKey=GitHubUser,ParameterValue=Mgmaplus ParameterKey=GitHubToken,ParameterValue=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 ParameterKey=GitSourceRepo,ParameterValue=airflow-eks-docker ParameterKey=GitBranch,ParameterValue=staging

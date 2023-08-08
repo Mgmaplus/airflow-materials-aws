@@ -105,9 +105,9 @@ kubectl get pods --all-namespaces
 curl -s https://fluxcd.io/install.sh | sudo bash
 
 flux bootstrap github \
-  --owner=marclamberti \
+  --owner=Mgmaplus \
   --repository=airflow-eks-config \
-  --branch=main \
+  --branch=master \
   --interval=15s \
   --personal
 

@@ -19,8 +19,9 @@ fluxctl sync --k8s-fwd-ns flux
 # Copy the Policy.Arn value
 aws iam create-policy \
     --policy-name ALBIngressControllerIAMPolicy \
-    --policy-document file://airflow-materials-aws/section-7/iam/iam-alb-policy.json
-    
+    --policy-document file://~/airflow-workplace/airflow-materials-aws/section-7/iam/iam-alb-policy.json
+
+PolicyARN =arn:aws:iam::663161315447:policy/ALBIngressControllerIAMPolicy
 # Create a service account and an IAM role for the pod running AWS ALB Ingress controller
 eksctl create iamserviceaccount \
        --cluster=airflow \
@@ -31,8 +32,9 @@ eksctl create iamserviceaccount \
        --approve
        
 # Deploy the AWS ALB Ingress controller
-cp airflow-materials-aws/section-7/deployments/airflow-alb-ingress-controller-dev.yml \
-    airflow-eks-config/deployments
+mkdir -p ~/airflow-workplace/airflow-eks-config/deployments
+cp ~/airflow-workplace/airflow-materials-aws/section-7/deployments/airflow-alb-ingress-controller-dev.yml \
+    ~/airflow-workplace/airflow-eks-config/deployments
     
 cd airflow-eks-config
 git add .
@@ -44,12 +46,12 @@ fluxctl sync --k8s-fwd-ns flux
 kubectl get pods -n kube-system
 
 # Add the service
-cp airflow-materials-aws/section-7/services/airflow-nodeport-dev.yml \
-    airflow-eks-config/services
+cp ~/airflow-workplace/airflow-materials-aws/section-7/services/airflow-nodeport-dev.yml \
+    ~/airflow-workplace/airflow-eks-config/services
 
 # Add the ingress rule
-mkdir -p airflow-eks-config/ingresses
-cp airflow-materials-aws/section-7/ingresses/airflow-ingress-dev.yml airflow-eks-config/ingresses
+mkdir -p ~/airflow-workplace/airflow-eks-config/ingresses
+cp ~/airflow-workplace/airflow-materials-aws/section-7/ingresses/airflow-ingress-dev.yml ~/airflow-workplace/airflow-eks-config/ingresses
 
 cd airflow-eks-config
 git add .
